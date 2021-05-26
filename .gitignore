@@ -31,3 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
+maindb.mv.db
+maindb.trace.db

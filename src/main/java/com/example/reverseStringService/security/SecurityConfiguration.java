@@ -20,6 +20,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
+    System.out.println(userDetailsService);
+
     auth.userDetailsService(userDetailsService);
   }
 
@@ -28,8 +31,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     http
         .csrf().disable()
         .authorizeRequests()
+        .antMatchers("/h2-console/*").permitAll()
         .antMatchers("/user/registration").permitAll()
-        .antMatchers("/checkauth").hasRole("DEFAULT")
+        .antMatchers("/checkauth").hasAuthority("DEFAULT")
+        .and().headers().frameOptions().disable()
         .and().formLogin();
   }
 

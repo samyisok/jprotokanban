@@ -15,11 +15,6 @@ public class ReverseStringController {
   @Autowired
   StringService stringService;
 
-  @GetMapping("/")
-  public Map<String, String> check() {
-    return Map.of("check", "ok");
-  }
-
   @GetMapping("/checkauth")
   public Map<String, String> checkauth() {
     return Map.of("check", "auth");

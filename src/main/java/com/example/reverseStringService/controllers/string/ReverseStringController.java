@@ -20,6 +20,11 @@ public class ReverseStringController {
     return Map.of("check", "ok");
   }
 
+  @GetMapping("/checkauth")
+  public Map<String, String> checkauth() {
+    return Map.of("check", "auth");
+  }
+
   @PostMapping("/string/reverse")
   public Map<String, String> reverseString(
       @RequestBody Map<String, String> inputStringMap) {

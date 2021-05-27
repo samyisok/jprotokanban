@@ -1,11 +1,18 @@
 package com.example.reverseStringService.controllers.user;
 
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.xml.bind.ValidationException;
 import com.example.reverseStringService.services.user.UserAlreadyExistException;
 import com.example.reverseStringService.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +26,10 @@ public class UserController {
   @Autowired
   UserService userService;
 
+  @Autowired
+  AuthenticationManager authManager;
+
+
   @GetMapping("/")
   public Map<String, String> check() {
     return Map.of("check", "ok");
@@ -27,6 +38,24 @@ public class UserController {
   @ExceptionHandler({ValidationException.class, UserAlreadyExistException.class})
   public Map<String, String> errorHandler(Exception e) {
     return Map.of("error", e.getMessage());
+  }
+
+  @PostMapping("/user/auth")
+  public Map<String, String> auth(@RequestBody Map<String, String> input,
+      HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
+
+
+    UsernamePasswordAuthenticationToken authReq =
+        new UsernamePasswordAuthenticationToken(input.get("login"),
+            input.get("password"));
+    Authentication auth = authManager.authenticate(authReq);
+
+    SecurityContext sc = SecurityContextHolder.getContext();
+    sc.setAuthentication(auth);
+    HttpSession session = httpRequest.getSession(true);
+    session.setAttribute("SPRING_SECURITY_CONTEXT_KEY", sc);
+
+    return Map.of("status", "success");
   }
 
   @GetMapping("/user/info")

@@ -1,5 +1,8 @@
 package com.example.reverseStringService.services.string;
 
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,4 +17,17 @@ public class StringService {
 
     return sb.toString();
   }
+
+  public String fizzBuzz(List<Long> list) {
+    Function<Long, String> isFizz = x -> x % 3 == 0 ? "Fizz" : "";
+    Function<Long, String> isBuzz = x -> x % 5 == 0 ? "Buzz" : "";
+    Function<Long, String> isFizzBuzz = x -> isFizz.apply(x) + isBuzz.apply(x);
+    String result =
+        list.stream()
+            .map(x -> isFizzBuzz.apply(x).equals("") ? String.valueOf(x)
+                : isFizzBuzz.apply(x))
+            .collect(Collectors.joining(", "));
+    return result;
+  }
+
 }

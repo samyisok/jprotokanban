@@ -1,5 +1,6 @@
 package com.example.reverseStringService.controllers.string;
 
+import java.util.List;
 import java.util.Map;
 import com.example.reverseStringService.services.string.StringService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,4 +29,14 @@ public class ReverseStringController {
 
     return Map.of("output", str);
   }
+
+  @PostMapping("/string/fizzbuzz")
+  public Map<String, String> fizzBuzz(@RequestBody Map<String, List<Long>> inputMap) {
+
+    String str = stringService.fizzBuzz(inputMap.get("array"));
+
+    return Map.of("null", str);
+  }
+
+
 }

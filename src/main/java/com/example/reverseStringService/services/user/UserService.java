@@ -28,13 +28,11 @@ public class UserService {
 
     User user = new User();
     Role role = new Role();
-    role.setRole("DEFAULT");
-    user.addRole(role);;
+    role.setRole("ROLE_USER");
+    user.addRole(role);
     user.setActive(true);
     user.setUserName(userDataRegistration.getLogin());
     user.setPassword(passwordEncoder.encode(userDataRegistration.getPassword1()));
-
-
 
     User createdUser = userRepository.save(user);
 

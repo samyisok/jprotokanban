@@ -8,6 +8,8 @@ import javax.xml.bind.ValidationException;
 import com.example.reverseStringService.services.user.UserAlreadyExistException;
 import com.example.reverseStringService.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -35,7 +37,8 @@ public class UserController {
     return Map.of("check", "ok");
   }
 
-  @ExceptionHandler({ValidationException.class, UserAlreadyExistException.class})
+  @ExceptionHandler({ValidationException.class, UserAlreadyExistException.class,
+      AccessDeniedException.class})
   public Map<String, String> errorHandler(Exception e) {
     return Map.of("error", e.getMessage());
   }
@@ -58,7 +61,9 @@ public class UserController {
     return Map.of("status", "success");
   }
 
+
   @GetMapping("/user/info")
+  @PreAuthorize("hasRole('USER')")
   public Map<String, String> info(Authentication authentication) {
 
     return Map.of("null", userService.getInfo(authentication));

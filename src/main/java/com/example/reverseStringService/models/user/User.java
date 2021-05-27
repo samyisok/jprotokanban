@@ -33,6 +33,11 @@ public class User {
     role.setUser(this);
   }
 
+  public void removeRole(Role role) {
+    roles.remove(role);
+    role.setUser(null);
+  }
+
   public Long getId() {
     return id;
   }

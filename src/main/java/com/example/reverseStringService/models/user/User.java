@@ -1,8 +1,15 @@
 package com.example.reverseStringService.models.user;
 
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import com.example.reverseStringService.models.role.Role;
 
 @Entity
 public class User {
@@ -11,10 +18,20 @@ public class User {
   private Long id;
 
   // username is email
+  @Column(unique = true)
   private String userName;
   private String password;
   private boolean active;
-  private String roles;
+
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL,
+      orphanRemoval = true)
+  // @JoinColumn(name = "user_id")
+  private Set<Role> roles = new HashSet<>();
+
+  public void addRole(Role role) {
+    roles.add(role);
+    role.setUser(this);
+  }
 
   public Long getId() {
     return id;
@@ -48,13 +65,7 @@ public class User {
     this.active = active;
   }
 
-  public String getRoles() {
-    return roles;
-  }
 
-  public void setRoles(String roles) {
-    this.roles = roles;
-  }
 
   @Override
   public int hashCode() {
@@ -113,4 +124,20 @@ public class User {
     }
     return true;
   }
+
+  @Override
+  public String toString() {
+    return "User [active=" + active + ", id=" + id + ", password=" + password
+        + ", roles=" + roles + ", userName=" + userName + "]";
+  }
+
+  public Set<Role> getRoles() {
+    return roles;
+  }
+
+  public void setRoles(Set<Role> roles) {
+    this.roles = roles;
+  }
+
+
 }

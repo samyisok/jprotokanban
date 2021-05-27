@@ -1,9 +1,12 @@
 package com.example.reverseStringService.services.user;
 
 import com.example.reverseStringService.controllers.user.UserInputRegistration;
+import com.example.reverseStringService.models.role.Role;
+import com.example.reverseStringService.models.user.MyUserDetails;
 import com.example.reverseStringService.models.user.User;
 import com.example.reverseStringService.models.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,13 +27,24 @@ public class UserService {
     }
 
     User user = new User();
-    user.setRoles("DEFAULT");
+    Role role = new Role();
+    role.setRole("DEFAULT");
+    user.addRole(role);;
     user.setActive(true);
     user.setUserName(userDataRegistration.getLogin());
     user.setPassword(passwordEncoder.encode(userDataRegistration.getPassword1()));
 
+
+
     User createdUser = userRepository.save(user);
 
     return (createdUser.getId() != null);
+  }
+
+  public String getInfo(Authentication authentication) {
+    MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
+    User user = userRepository.getById(userDetails.getId());
+
+    return user.toString();
   }
 }

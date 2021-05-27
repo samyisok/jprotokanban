@@ -5,6 +5,7 @@ import javax.xml.bind.ValidationException;
 import com.example.reverseStringService.services.user.UserAlreadyExistException;
 import com.example.reverseStringService.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +27,12 @@ public class UserController {
   @ExceptionHandler({ValidationException.class, UserAlreadyExistException.class})
   public Map<String, String> errorHandler(Exception e) {
     return Map.of("error", e.getMessage());
+  }
+
+  @GetMapping("/user/info")
+  public Map<String, String> info(Authentication authentication) {
+
+    return Map.of("null", userService.getInfo(authentication));
   }
 
   @PostMapping("/user/registration")

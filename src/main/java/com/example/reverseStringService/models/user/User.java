@@ -1,6 +1,8 @@
 package com.example.reverseStringService.models.user;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import com.example.reverseStringService.models.card.Card;
 import com.example.reverseStringService.models.role.Role;
 
 @Entity
@@ -36,6 +39,20 @@ public class User {
   public void removeRole(Role role) {
     roles.remove(role);
     role.setUser(null);
+  }
+
+  @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+      orphanRemoval = false)
+  private List<Card> cards = new ArrayList<>();
+
+  public void addCard(Card card) {
+    cards.add(card);
+    card.setUser(this);
+  }
+
+  public void removeCard(Card card) {
+    cards.remove(card);
+    card.setUser(null);
   }
 
   public Long getId() {
@@ -142,6 +159,14 @@ public class User {
 
   public void setRoles(Set<Role> roles) {
     this.roles = roles;
+  }
+
+  public List<Card> getCards() {
+    return cards;
+  }
+
+  public void setCards(List<Card> cards) {
+    this.cards = cards;
   }
 
 

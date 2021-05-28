@@ -1,10 +1,15 @@
 package com.example.reverseStringService.models.column;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import com.example.reverseStringService.models.board.Board;
+import com.example.reverseStringService.models.card.Card;
 
 @Entity
 public class Column {
@@ -17,6 +22,20 @@ public class Column {
 
   @ManyToOne
   private Board board;
+
+  @OneToMany(mappedBy = "column", cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+      orphanRemoval = false)
+  private List<Card> cards = new ArrayList<>();
+
+  public void addCard(Card card) {
+    cards.add(card);
+    card.setColumn(this);
+  }
+
+  public void removeCard(Card card) {
+    cards.remove(card);
+    card.setColumn(null);
+  }
 
   public Long getId() {
     return id;

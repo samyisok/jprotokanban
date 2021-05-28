@@ -16,10 +16,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
+@RequestMapping("api/user")
 @PreAuthorize("denyAll")
 public class UserController {
 
@@ -36,7 +38,7 @@ public class UserController {
     return Map.of("check", "ok");
   }
 
-  @PostMapping("/user/auth")
+  @PostMapping("/auth")
   @PreAuthorize("permitAll")
   public Map<String, String> auth(@RequestBody Map<String, String> input,
       HttpServletRequest httpRequest) {
@@ -54,14 +56,14 @@ public class UserController {
   }
 
 
-  @GetMapping("/user/info")
+  @GetMapping("/info")
   @PreAuthorize("hasRole('USER')")
   public Map<String, String> info(Authentication authentication) {
 
     return Map.of("null", userService.getInfo(authentication));
   }
 
-  @PostMapping("/user/registration")
+  @PostMapping("/registration")
   @PreAuthorize("permitAll")
   public Map<String, Boolean> registration(
       @RequestBody UserInputRegistration userRegistrationData)

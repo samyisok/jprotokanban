@@ -1,7 +1,7 @@
-package com.example.jprotokanban.controllers.board;
+package com.example.jprotokanban.controllers.column;
 
-import com.example.jprotokanban.models.board.Board;
-import com.example.jprotokanban.services.board.BoardService;
+import com.example.jprotokanban.models.column.Column;
+import com.example.jprotokanban.services.column.ColumnService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,28 +14,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController()
-@RequestMapping("api/board")
+@RequestMapping("api/column")
 @PreAuthorize("denyAll")
-public class BoardController {
+public class ColumnController {
   @Autowired
-  private BoardService boardService;
+  private ColumnService columnService;
 
   @PostMapping("/create")
   @PreAuthorize("hasRole('USER')")
-  public Board create(@RequestBody BoardCreateInput input) {
-    return boardService.create(input);
+  public Column create(@RequestBody ColumnCreateInput input) {
+    return columnService.create(input);
   }
 
   @GetMapping("/{id}")
   @PreAuthorize("hasRole('USER')")
-  public Board get(@PathVariable Long id) {
-    return boardService.getBoard(id);
+  public Column get(@PathVariable Long id) {
+    return columnService.getBoard(id);
   }
 
-  // api/board/list?page=2&size=1
+  // api/column/list?page=2&size=1
   @GetMapping("/list")
   @PreAuthorize("hasRole('USER')")
-  public Page<Board> list(Pageable pageable) {
-    return boardService.getAllPageable(pageable);
+  public Page<Column> list(Pageable pageable) {
+    return columnService.getAllPageable(pageable);
   }
 }

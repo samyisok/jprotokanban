@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import com.example.jprotokanban.models.column.Column;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Board {
@@ -16,6 +17,7 @@ public class Board {
   private Long id;
   private String title;
 
+  @JsonManagedReference
   @OneToMany(mappedBy = "board", cascade = CascadeType.ALL,
       orphanRemoval = true)
   private List<Column> columns = new ArrayList<>();

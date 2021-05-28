@@ -31,9 +31,14 @@ public enum CodeExceptionManager {
   }
 
   public GenericException getThrowableException() {
+    return getThrowableException("");
+  }
+
+  public GenericException getThrowableException(String extraMessage) {
+    String msgFormat = extraMessage.isEmpty() ? "" : " (" + extraMessage + ")";
     try {
       return this.getExceptionClass().getConstructor(String.class, Long.class)
-          .newInstance(this.message, this.code);
+          .newInstance(this.message + msgFormat, this.code);
     } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
         | InvocationTargetException | NoSuchMethodException | SecurityException e) {
       e.printStackTrace();

@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import com.example.jprotokanban.models.board.Board;
 import com.example.jprotokanban.models.card.Card;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class Column {
@@ -20,6 +21,7 @@ public class Column {
   private Long wip;
   private Long position;
 
+  @JsonBackReference
   @ManyToOne
   private Board board;
 

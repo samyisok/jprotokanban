@@ -8,9 +8,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>reverseStringService</artifactId>
+	<artifactId>jprotokanban</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>reverseStringService</name>
+	<name>jprotokanban</name>
 	<description>Wow so string</description>
 	<properties>
 		<java.version>16</java.version>

@@ -2,7 +2,6 @@ package com.example.reverseStringService.controllers.user;
 
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.bind.ValidationException;
 import com.example.reverseStringService.services.user.UserAlreadyExistException;
@@ -32,15 +31,15 @@ public class UserController {
 
 
   @GetMapping("/")
+  @PreAuthorize("permitAll")
   public Map<String, String> check() {
     return Map.of("check", "ok");
   }
 
   @PostMapping("/user/auth")
+  @PreAuthorize("permitAll")
   public Map<String, String> auth(@RequestBody Map<String, String> input,
-      HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
-
-
+      HttpServletRequest httpRequest) {
     UsernamePasswordAuthenticationToken authReq =
         new UsernamePasswordAuthenticationToken(input.get("login"),
             input.get("password"));
@@ -63,6 +62,7 @@ public class UserController {
   }
 
   @PostMapping("/user/registration")
+  @PreAuthorize("permitAll")
   public Map<String, Boolean> registration(
       @RequestBody UserInputRegistration userRegistrationData)
       throws ValidationException, UserAlreadyExistException {

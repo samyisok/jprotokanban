@@ -6,6 +6,8 @@ import com.example.jprotokanban.exceptions.custom.CodeExceptionManager;
 import com.example.jprotokanban.models.board.Board;
 import com.example.jprotokanban.models.board.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,5 +27,9 @@ public class BoardService {
       throw CodeExceptionManager.NOT_FOUND.getThrowableException();
     }
     return board.get();
+  }
+
+  public Page<Board> getAllPageable(Pageable pageable) {
+    return boardRepository.findAll(pageable);
   }
 }

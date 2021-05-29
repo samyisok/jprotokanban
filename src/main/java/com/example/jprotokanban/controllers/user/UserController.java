@@ -3,6 +3,7 @@ package com.example.jprotokanban.controllers.user;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import javax.xml.bind.ValidationException;
 import com.example.jprotokanban.services.user.UserAlreadyExistException;
 import com.example.jprotokanban.services.user.UserService;
@@ -66,7 +67,7 @@ public class UserController {
   @PostMapping("/registration")
   @PreAuthorize("permitAll")
   public Map<String, Boolean> registration(
-      @RequestBody UserInputRegistration userRegistrationData)
+      @Valid @RequestBody UserInputRegistration userRegistrationData)
       throws ValidationException, UserAlreadyExistException {
 
 

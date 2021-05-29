@@ -1,7 +1,6 @@
 package com.example.jprotokanban.services.card;
 
 import java.util.Optional;
-import com.example.jprotokanban.controllers.SuccessResponse;
 import com.example.jprotokanban.controllers.card.CardCreateInput;
 import com.example.jprotokanban.exceptions.custom.CodeExceptionManager;
 import com.example.jprotokanban.models.card.Card;

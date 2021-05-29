@@ -1,7 +1,16 @@
 package com.example.jprotokanban.controllers.column;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
+
 public class ColumnCreateInput {
+  @NotEmpty
+  @Size(min = 3, max = 250)
   private String title;
+  @NotNull
+  @Positive
   private Long boardId;
 
   public String getTitle() {

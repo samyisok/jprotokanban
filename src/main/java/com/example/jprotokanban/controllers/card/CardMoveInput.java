@@ -1,7 +1,14 @@
 package com.example.jprotokanban.controllers.card;
 
+import javax.validation.constraints.Positive;
+import org.springframework.lang.NonNull;
+
 public class CardMoveInput {
+  @NonNull
+  @Positive
   private Long columnId;
+  @NonNull
+  @Positive
   private Long cardId;
 
   public Long getColumnId() {

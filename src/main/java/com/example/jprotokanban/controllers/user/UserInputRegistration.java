@@ -1,8 +1,21 @@
 package com.example.jprotokanban.controllers.user;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class UserInputRegistration {
+  // login must be email
+  @NotNull
+  @Email
   private String login;
+
+  @NotNull
+  @Size(min = 5, max = 25)
   private String password1;
+
+  @NotNull
+  @Size(min = 5, max = 25)
   private String password2;
 
   public String getLogin() {

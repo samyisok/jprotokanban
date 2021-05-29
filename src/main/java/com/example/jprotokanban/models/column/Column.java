@@ -11,6 +11,7 @@ import javax.persistence.OneToMany;
 import com.example.jprotokanban.models.board.Board;
 import com.example.jprotokanban.models.card.Card;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Column {
@@ -25,6 +26,7 @@ public class Column {
   @ManyToOne
   private Board board;
 
+  @JsonManagedReference
   @OneToMany(mappedBy = "column", cascade = {CascadeType.PERSIST, CascadeType.MERGE},
       orphanRemoval = false)
   private List<Card> cards = new ArrayList<>();

@@ -8,6 +8,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import com.example.jprotokanban.models.column.Column;
 import com.example.jprotokanban.models.user.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class Card {
@@ -21,9 +22,11 @@ public class Card {
   @javax.persistence.Column
   private String text;
 
+  @JsonBackReference
   @ManyToOne
   private Column column;
 
+  @JsonBackReference
   @ManyToOne
   private User user;
 

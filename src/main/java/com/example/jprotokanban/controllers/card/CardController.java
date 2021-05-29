@@ -1,5 +1,6 @@
 package com.example.jprotokanban.controllers.card;
 
+import com.example.jprotokanban.controllers.SuccessResponse;
 import com.example.jprotokanban.models.card.Card;
 import com.example.jprotokanban.services.card.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,12 @@ public class CardController {
   @PreAuthorize("hasRole('USER')")
   public Page<Card> list(Pageable pageable) {
     return cardService.getAllPageable(pageable);
+  }
+
+  @PostMapping("/move")
+  @PreAuthorize("hasRole('USER')")
+  public SuccessResponse move(@RequestBody CardMoveInput input) {
+    Boolean result = cardService.moveToColumn(input.getCardId(), input.getColumnId());
+    return new SuccessResponse(result);
   }
 }

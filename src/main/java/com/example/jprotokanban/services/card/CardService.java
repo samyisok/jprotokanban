@@ -1,6 +1,7 @@
 package com.example.jprotokanban.services.card;
 
 import java.util.Optional;
+import com.example.jprotokanban.controllers.SuccessResponse;
 import com.example.jprotokanban.controllers.card.CardCreateInput;
 import com.example.jprotokanban.exceptions.custom.CodeExceptionManager;
 import com.example.jprotokanban.models.card.Card;
@@ -66,6 +67,32 @@ public class CardService {
 
   public Page<Card> getAllPageable(Pageable pageable) {
     return cardRepository.findAll(pageable);
+  }
+
+  public boolean moveToColumn(Long cardId, Long columnId) {
+    Optional<Column> columnOpt = columnRepository.findById(columnId);
+    if (columnOpt.isEmpty()) {
+      throw CodeExceptionManager.NOT_FOUND
+          .getThrowableException("column " + columnId + " not found!");
+    }
+
+    Optional<Card> cardOpt = cardRepository.findById(cardId);
+    if (cardOpt.isEmpty()) {
+      throw CodeExceptionManager.NOT_FOUND
+          .getThrowableException("card " + cardId + " not found!");
+    }
+    Card card = cardOpt.get();
+    Column columnOld = card.getColumn();
+    Column columnNew = columnOpt.get();
+    if (columnNew.getId().equals(columnOld.getId())) {
+      return false;
+    }
+
+    columnOld.removeCard(card);
+    columnNew.addCard(card);
+
+    cardRepository.save(card);
+    return true;
   }
 
 }

@@ -18,6 +18,18 @@ public enum CodeExceptionManager {
     this.exceptionClass = exceptionClass;
   }
 
+  public GenericException getThrowableException(String extraMessage) {
+    String msgFormat = extraMessage.isEmpty() ? "" : " (" + extraMessage + ")";
+    try {
+      return this.getExceptionClass().getConstructor(String.class, Long.class)
+          .newInstance(this.message + msgFormat, this.code);
+    } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+        | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+      e.printStackTrace();
+    }
+    return new GenericException("Unexpected Error", DEFAUL_CODE);
+  }
+
   public String getMessage() {
     return message;
   }
@@ -34,17 +46,6 @@ public enum CodeExceptionManager {
     return getThrowableException("");
   }
 
-  public GenericException getThrowableException(String extraMessage) {
-    String msgFormat = extraMessage.isEmpty() ? "" : " (" + extraMessage + ")";
-    try {
-      return this.getExceptionClass().getConstructor(String.class, Long.class)
-          .newInstance(this.message + msgFormat, this.code);
-    } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-        | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-      e.printStackTrace();
-    }
-    return new GenericException("Unexpected Error", DEFAUL_CODE);
-  }
 
 
   public static Long getDefaultCodeError() {

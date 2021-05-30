@@ -32,13 +32,6 @@ public class UserController {
   @Autowired
   AuthenticationManager authManager;
 
-
-  @GetMapping("/")
-  @PreAuthorize("permitAll")
-  public Map<String, String> check() {
-    return Map.of("check", "ok");
-  }
-
   @PostMapping("/auth")
   @PreAuthorize("permitAll")
   public Map<String, String> auth(@RequestBody Map<String, String> input,

@@ -33,3 +33,5 @@ build/
 .vscode/
 maindb.mv.db
 maindb.trace.db
+node/
+node_modules

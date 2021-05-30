@@ -83,6 +83,7 @@ public class CardService {
     Card card = cardOpt.get();
     Column columnOld = card.getColumn();
     Column columnNew = columnOpt.get();
+
     if (columnNew.getId().equals(columnOld.getId())) {
       return false;
     }

@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
-import Box from '@material-ui/core/Box';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
@@ -11,37 +10,81 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItems.jsx';
+import Board from './Board.jsx'
+import Api from "./Api";
 
-
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link as RouterLink
-} from 'react-router-dom'
-import { Button } from '@material-ui/core';
+let boardTmpl = {
+  "id": 5,
+  "title": "New Board name2",
+  "columns": [
+    {
+      "id": 6,
+      "title": "New Column",
+      "wip": null,
+      "position": null,
+      "cards": [
+        {
+          "id": 10,
+          "title": "my second card",
+          "text": "long text whooh!"
+        },
+        {
+          "id": 11,
+          "title": "my third card",
+          "text": "long text whooh!"
+        },
+        {
+          "id": 12,
+          "title": "my forth card",
+          "text": "long text whooh!"
+        },
+        {
+          "id": 13,
+          "title": null,
+          "text": "long text whooh!"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "End Column",
+      "wip": null,
+      "position": null,
+      "cards": []
+    },
+    {
+      "id": 9,
+      "title": "End Column",
+      "wip": null,
+      "position": null,
+      "cards": [
+        {
+          "id": 8,
+          "title": "my first card",
+          "text": "long text whooh!"
+        }
+      ]
+    }
+  ]
+}
 
 
 
 function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
+  // return (
+  //   <Typography variant="body2" color="textSecondary" align="center">
+  //     {'Copyright © '}
+  //     <Link color="inherit" href="https://material-ui.com/">
+  //       Your Website
+  //     </Link>{' '}
+  //     {new Date().getFullYear()}
+  //     {'.'}
+  //   </Typography>
+  // );
 }
 
 const drawerWidth = 240;
@@ -127,7 +170,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -135,6 +178,16 @@ export default function Dashboard() {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+  const [boardResult, setBoardResult] = useState(null)
+
+  useEffect(() => {
+    const response = Api.get("/board/5/")
+    response.then(res => {
+      setBoardResult(res.data)
+      console.log(res.data)
+    }).catch(e => console.log(e));
+  }, [setBoardResult])
 
   return (
     <div className={classes.root}>
@@ -179,34 +232,8 @@ export default function Dashboard() {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
-                <span>CHART</span>
-              </Paper>
-            </Grid>
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
-                <span>DEPOSIT</span>
-              </Paper>
-            </Grid>
-            {/* Recent Orders */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <span>ORDERS</span>
-                <Link to="/">Home</Link>
-                <Button><RouterLink to="/login">login</RouterLink></Button>
-              </Paper>
-            </Grid>
-          </Grid>
-          <Box pt={4}>
-            <Copyright />
-          </Box>
-        </Container>
+        {!!boardResult && <Board board={boardResult} />}
       </main>
-    </div>
+    </div >
   );
 }

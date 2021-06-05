@@ -121,4 +121,10 @@ public class Mail {
     this.fromAddr = fromAddr;
   }
 
+  @Override
+  public String toString() {
+    return "Mail [ id=" + id + ", fromAddr=" + fromAddr + ",  subject=" + subject
+        + " ]";
+  }
+
 }

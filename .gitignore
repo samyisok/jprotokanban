@@ -35,3 +35,4 @@ maindb.mv.db
 maindb.trace.db
 node/
 node_modules
+src/main/resources/application-dev.yaml

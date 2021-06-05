@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.xml.bind.ValidationException;
+import com.example.jprotokanban.services.mail.MailProcessorService;
 import com.example.jprotokanban.services.user.UserAlreadyExistException;
 import com.example.jprotokanban.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,10 @@ public class UserController {
   @Autowired
   AuthenticationManager authManager;
 
+  @Autowired
+  MailProcessorService mailService;
+
+
   @PostMapping("/auth")
   @PreAuthorize("permitAll")
   public Map<String, String> auth(@RequestBody Map<String, String> input,
@@ -47,6 +52,13 @@ public class UserController {
     session.setAttribute("SPRING_SECURITY_CONTEXT_KEY", sc);
 
     return Map.of("status", "success");
+  }
+
+  @GetMapping("/mail")
+  @PreAuthorize("hasRole('USER')")
+  public Map<String, String> info() {
+    mailService.process();
+    return Map.of("null", "ok");
   }
 
 

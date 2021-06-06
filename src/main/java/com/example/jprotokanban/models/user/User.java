@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import com.example.jprotokanban.models.card.Card;
 import com.example.jprotokanban.models.role.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -24,6 +25,7 @@ public class User {
   // username is email
   @Column(unique = true)
   private String userName;
+  @JsonIgnore
   private String password;
   private boolean active;
 

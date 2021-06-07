@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import com.example.jprotokanban.models.column.Column;
+import com.example.jprotokanban.models.customer.Customer;
 import com.example.jprotokanban.models.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -29,6 +30,11 @@ public class Card {
   @JsonBackReference
   @ManyToOne
   private User user;
+
+  @JsonBackReference
+  @ManyToOne
+  private Customer customer;
+
 
   public Long getId() {
     return id;
@@ -104,6 +110,14 @@ public class Card {
 
   public void setUser(User user) {
     this.user = user;
+  }
+
+  public Customer getCustomer() {
+    return customer;
+  }
+
+  public void setCustomer(Customer customer) {
+    this.customer = customer;
   }
 
 

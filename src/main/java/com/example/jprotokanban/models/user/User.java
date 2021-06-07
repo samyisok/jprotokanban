@@ -25,6 +25,7 @@ public class User {
   // username is email
   @Column(unique = true)
   private String userName;
+
   @JsonIgnore
   private String password;
   private boolean active;

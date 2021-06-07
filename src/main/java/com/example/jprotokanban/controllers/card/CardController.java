@@ -30,7 +30,11 @@ public class CardController {
   @PreAuthorize("hasRole('USER')")
   public Card create(@Valid @RequestBody CardCreateInput input,
       Authentication authentication) {
-    return cardService.create(input, authentication);
+    return cardService.createWithAuth(
+        input.getTitle(),
+        input.getText(),
+        input.getColumnId(),
+        authentication);
   }
 
   @GetMapping("/{id}")

@@ -14,7 +14,7 @@ public class CustomerService {
   @Autowired
   private CustomerRepository customerRepository;
 
-  public void create(String name, String email) {
+  public Customer create(String name, String email) {
     Optional<Customer> existedCustomer = customerRepository.findByEmail(email);
     if (existedCustomer.isPresent()) {
       // update name if exist
@@ -29,13 +29,15 @@ public class CustomerService {
     customer.setName(name);
     customer.setEmail(email);
     customerRepository.save(customer);
+
+    return customer;
   }
 
 
-  public void createFromString(String from) throws CustomerParserException {
+  public Customer createFromString(String from) throws CustomerParserException {
     Map<String, String> customerData = parseFrom(from);
 
-    create(customerData.get("name"), customerData.get("email"));
+    return create(customerData.get("name"), customerData.get("email"));
   }
 
 

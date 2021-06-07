@@ -27,7 +27,9 @@ public class Column {
   private Board board;
 
   @JsonManagedReference
-  @OneToMany(mappedBy = "column", cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+  @OneToMany(mappedBy = "column",
+      cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
+          CascadeType.DETACH},
       orphanRemoval = false)
   private List<Card> cards = new ArrayList<>();
 

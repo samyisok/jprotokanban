@@ -13,14 +13,15 @@ import com.example.jprotokanban.models.mail.Mail;
 import com.example.jprotokanban.models.user.MyUserDetails;
 import com.example.jprotokanban.models.user.User;
 import com.example.jprotokanban.models.user.UserRepository;
+import com.example.jprotokanban.services.comment.CommentService;
 import com.example.jprotokanban.services.filter.IncomingMailFilterable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 @Service
@@ -35,6 +36,9 @@ public class CardService {
 
   @Autowired
   private UserRepository userRepository;
+
+  @Autowired
+  private CommentService commentService;
 
   @Autowired
   private IncomingMailFilterable mailFilter;
@@ -89,17 +93,19 @@ public class CardService {
 
   public Card createCardOrCommentFromMail(Customer customer, Mail mail) {
     Optional<Card> cardOpt = findCardFromMail(mail);
-    try {
-      if (cardOpt.isEmpty()) {
+    if (cardOpt.isEmpty()) {
+      try {
+
         return createFromCustomer(mail.getSubject(), mail.getPlainContent(),
             mailFilter.getColumnId(),
             customer);
-      }
-    } catch (Exception e) {
-      log.warn("can't create card by reason: " + e.getMessage());
-    }
 
-    // TODO create comment
+      } catch (Exception e) {
+        log.warn("can't create card by a reason: " + e.getMessage());
+      }
+    } else {
+      commentService.createCommentByCardFromMail(cardOpt.get(), customer, mail);
+    }
 
     return cardOpt.get();
   }

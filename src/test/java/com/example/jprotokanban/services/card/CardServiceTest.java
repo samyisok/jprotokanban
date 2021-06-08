@@ -1,10 +1,17 @@
 package com.example.jprotokanban.services.card;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 import java.util.Optional;
+import com.example.jprotokanban.models.card.Card;
+import com.example.jprotokanban.models.card.CardRepository;
+import com.example.jprotokanban.models.mail.Mail;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 
 
@@ -14,21 +21,53 @@ public class CardServiceTest {
   @SpyBean
   private CardService cardService;
 
+  @MockBean
+  private CardRepository cardRepository;
+
+  @Mock
+  Card card;
+
+  @Mock
+  Mail mail;
+
   String mailSubject = "RE: [#123456] test subject 42";
   Long ticketExpected = 123456L;
 
   @Test
-  void testShouldFindCardFromMail() {
+  void testShouldParseMailTitleForCardNumber() {
     Optional<Long> ticketNumber = cardService.parseMailTitleForCardNumber(mailSubject);
     assertTrue(ticketNumber.isPresent());
     assertEquals(ticketExpected, ticketNumber.get());
   }
 
   @Test
-  void testShouldNotFindCardFromMail() {
+  void testShouldNotParseMailTitleForCardNumber() {
     Optional<Long> ticketNumber =
         cardService.parseMailTitleForCardNumber("#123456 test");
     assertTrue(ticketNumber.isEmpty());
   }
+
+  @Test
+  void testShouldFindCardFromMail() {
+    when(cardRepository.findById(ticketExpected)).thenReturn(Optional.of(card));
+    when(mail.getSubject()).thenReturn(mailSubject);
+    when(cardService.parseMailTitleForCardNumber(mailSubject))
+        .thenReturn(Optional.of(ticketExpected));
+
+    Optional<Card> cardOpt = cardService.findCardFromMail(mail);
+    assertTrue(cardOpt.isPresent());
+    assertSame(cardOpt.get(), card);
+  }
+
+  @Test
+  void testShouldNotFindCardFromMailIfMailSubjectIsEmpty() {
+    when(mail.getSubject()).thenReturn("mailSubject");
+    when(cardService.parseMailTitleForCardNumber(mailSubject))
+        .thenReturn(Optional.empty());
+
+    Optional<Card> cardOpt = cardService.findCardFromMail(mail);
+    assertTrue(cardOpt.isEmpty());
+  }
+
 
 }

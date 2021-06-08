@@ -118,7 +118,7 @@ public class CardService {
     Pattern pattern = Pattern.compile(regex);
     Matcher matcher = pattern.matcher(title);
 
-    if (matcher.matches()) {
+    if (matcher.find()) {
       return Optional.of(Long.valueOf(matcher.group(1)));
     }
 

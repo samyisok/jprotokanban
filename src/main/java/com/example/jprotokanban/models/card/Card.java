@@ -1,12 +1,17 @@
 package com.example.jprotokanban.models.card;
 
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import com.example.jprotokanban.models.column.Column;
+import com.example.jprotokanban.models.comment.Comment;
 import com.example.jprotokanban.models.customer.Customer;
 import com.example.jprotokanban.models.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -35,6 +40,8 @@ public class Card {
   @ManyToOne
   private Customer customer;
 
+  @OneToMany(mappedBy = "card", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Comment> comments = new ArrayList<>();
 
   public Long getId() {
     return id;
@@ -120,5 +127,15 @@ public class Card {
     this.customer = customer;
   }
 
+
+  public void addComment(Comment comment) {
+    comments.add(comment);
+    comment.setCard(this);
+  }
+
+  public void removeComment(Comment comment) {
+    comments.remove(comment);
+    comment.setCard(null);
+  }
 
 }

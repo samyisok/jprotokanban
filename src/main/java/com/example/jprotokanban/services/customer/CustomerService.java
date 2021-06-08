@@ -21,7 +21,7 @@ public class CustomerService {
       if (!name.isEmpty()) {
         Customer currentCustomer = existedCustomer.get();
         currentCustomer.setName(name);
-        customerRepository.save(currentCustomer);
+        return customerRepository.save(currentCustomer);
       }
     }
 

@@ -56,7 +56,7 @@ public class UserController {
 
   @GetMapping("/mail")
   @PreAuthorize("hasRole('USER')")
-  public Map<String, String> info() {у тебя рисованию больший талант.
+  public Map<String, String> info() {
     mailService.process();
     return Map.of("null", "ok");
   }

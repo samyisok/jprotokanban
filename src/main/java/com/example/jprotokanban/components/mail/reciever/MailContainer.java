@@ -1,4 +1,4 @@
-package com.example.jprotokanban.components.mail;
+package com.example.jprotokanban.components.mail.reciever;
 
 import java.util.List;
 import javax.mail.Address;

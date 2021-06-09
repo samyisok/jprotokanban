@@ -2,8 +2,8 @@ package com.example.jprotokanban.services.mail;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import com.example.jprotokanban.components.mail.MailContainer;
-import com.example.jprotokanban.components.mail.MailReceivable;
+import com.example.jprotokanban.components.mail.reciever.MailContainer;
+import com.example.jprotokanban.components.mail.reciever.MailReceivable;
 import com.example.jprotokanban.models.mail.Mail;
 import com.example.jprotokanban.models.mail.MailRepository;
 import com.example.jprotokanban.properties.MailProperties;

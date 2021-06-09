@@ -1,6 +1,7 @@
 package com.example.jprotokanban.services.mail;
 
 import java.util.List;
+import com.example.jprotokanban.models.card.Card;
 import com.example.jprotokanban.models.customer.Customer;
 import com.example.jprotokanban.models.mail.Mail;
 import com.example.jprotokanban.models.mail.MailRepository;
@@ -11,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -26,6 +28,7 @@ public class CardGeneratorService {
   @Autowired
   private MailRepository mailRepository;
 
+  @Transactional
   public void process() {
     List<Mail> mails = mailRepository.findByProcessedFalse();
 
@@ -34,7 +37,10 @@ public class CardGeneratorService {
       log.info("Start process:" + mail.toString());
       try {
         Customer customer = customerService.createFromString(mail.getFromAddr());
-        cardService.createCardOrCommentFromMail(customer, mail);
+        Card card = cardService.createCardOrCommentFromMail(customer, mail);
+        if (card != null) {
+          mail.setProcessed(true);
+        }
       } catch (CustomerParserException e) {
         log.info("Can not process " + mail + " -> " + e.getMessage());
         // skip mail

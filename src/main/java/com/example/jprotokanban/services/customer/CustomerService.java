@@ -8,9 +8,13 @@ import com.example.jprotokanban.models.customer.Customer;
 import com.example.jprotokanban.models.customer.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class CustomerService {
+  private static final Logger log = LoggerFactory.getLogger(CustomerService.class);
+
   @Autowired
   private CustomerRepository customerRepository;
 
@@ -18,11 +22,14 @@ public class CustomerService {
     Optional<Customer> existedCustomer = customerRepository.findByEmail(email);
     if (existedCustomer.isPresent()) {
       // update name if exist
+      log.info("Update customer name: " + name + " " + email);
       if (!name.isEmpty()) {
         Customer currentCustomer = existedCustomer.get();
         currentCustomer.setName(name);
         return customerRepository.save(currentCustomer);
       }
+      log.info("Customer alredy exist, do nothing: " + email);
+      return existedCustomer.get();
     }
 
     Customer customer = new Customer();
@@ -30,6 +37,7 @@ public class CustomerService {
     customer.setEmail(email);
     customerRepository.save(customer);
 
+    log.info("Create Customer: " + name + " " + email);
     return customer;
   }
 

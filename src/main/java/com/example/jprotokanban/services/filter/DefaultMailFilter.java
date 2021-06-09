@@ -14,7 +14,7 @@ public class DefaultMailFilter implements IncomingMailFilterable {
 
   @Override
   public Long getColumnId() throws Exception {
-    Optional<Board> boardOpt = boardRepository.findFirstBy();
+    Optional<Board> boardOpt = boardRepository.findFirstByColumnsIsNotNull();
     if (boardOpt.isPresent()) {
       Board board = boardOpt.get();
       return board.getColumns().get(0).getId();

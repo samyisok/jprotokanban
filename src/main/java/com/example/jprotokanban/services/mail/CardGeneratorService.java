@@ -36,8 +36,8 @@ public class CardGeneratorService {
     for (Mail mail : mails) {
       log.info("Start process:" + mail.toString());
       try {
-        Customer customer = customerService.createFromString(mail.getFromAddr());
-        Card card = cardService.createCardOrCommentFromMail(customer, mail);
+        Customer customer = customerService.createFromEmailString(mail.getFromAddr());
+        Card card = cardService.createCardOrCommentFromEmail(customer, mail);
         if (card != null) {
           mail.setProcessed(true);
         }

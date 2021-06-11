@@ -42,7 +42,7 @@ public class CustomerService {
   }
 
 
-  public Customer createFromString(String from) throws CustomerParserException {
+  public Customer createFromEmailString(String from) throws CustomerParserException {
     Map<String, String> customerData = parseFrom(from);
 
     return create(customerData.get("name"), customerData.get("email"));

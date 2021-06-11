@@ -12,6 +12,7 @@ public class MailSenderProperties {
   private String password;
   private Boolean debug = false;
   private Boolean active = false;
+  private String defaultReplyEmail;
 
   public String getHost() {
     return host;
@@ -59,6 +60,14 @@ public class MailSenderProperties {
 
   public void setActive(Boolean active) {
     this.active = active;
+  }
+
+  public String getDefaultReplyEmail() {
+    return defaultReplyEmail;
+  }
+
+  public void setDefaultReplyEmail(String defaultReplyEmail) {
+    this.defaultReplyEmail = defaultReplyEmail;
   }
 
 }

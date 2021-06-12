@@ -112,9 +112,12 @@ public class CardService {
                 customer);
 
         sendEmailCardIsCreated(customer, newCard);
+        return newCard;
 
       } catch (Exception e) {
-        log.warn("can't create card by a reason: " + e.getMessage());
+        String msg = "can't create card by a reason: " + e.getMessage();
+        log.warn(msg);
+        throw CodeExceptionManager.CAN_NOT_CREATE_ENTITY.getThrowableException(msg);
       }
     } else {
       commentService.createCommentByCardFromMail(cardOpt.get(), customer, mail);

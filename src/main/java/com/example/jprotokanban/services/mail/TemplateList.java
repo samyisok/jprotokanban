@@ -4,7 +4,7 @@ public enum TemplateList {
   INCOMING_MAIL_REPLY(
       "html/incoming-mail-reply.html",
       "text/incoming-mail-reply.txt",
-      "[#${ticketId}] - Reply: ${subject}");
+      "[#[(${ticketId})]] - Reply: [(${subject})]");
 
   private String htmlTemplate;
   private String textTemplate;

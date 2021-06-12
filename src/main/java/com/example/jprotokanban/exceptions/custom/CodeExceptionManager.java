@@ -7,6 +7,7 @@ public enum CodeExceptionManager {
   NOT_FOUND("Entity not found", 31001L, GenericException.class),
   VALIDATION_ERROR("Validation error", 31002L, GenericException.class),
   INVALID_PARAMS("Invalid Params", 31003L, GenericException.class),
+  CAN_NOT_CREATE_ENTITY("Can not create entity", 31005L, GenericException.class),
   EMPTY_OUTCOMING_MAIL("Empty outcoming mail", 31004L, GenericException.class);
 
   private static Long DEFAUL_CODE = 31000L;

@@ -133,7 +133,7 @@ public class CardService {
     String subject = newCard.getTitle();
 
     Context context = new Context();
-    context.setVariable("tickedId", ticketId);
+    context.setVariable("ticketId", ticketId);
     context.setVariable("subject", subject);
 
     mailSenderService.addMailToSendQueue(TemplateList.INCOMING_MAIL_REPLY, context,

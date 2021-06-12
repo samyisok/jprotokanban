@@ -2,6 +2,7 @@ package com.example.jprotokanban.shedulers;
 
 import com.example.jprotokanban.services.mail.CardGeneratorService;
 import com.example.jprotokanban.services.mail.MailProcessorService;
+import com.example.jprotokanban.services.mail.OutcomingMailProcessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -13,6 +14,9 @@ public class ShedulingConfiguration {
 
   @Autowired
   private MailProcessorService mailProcessorService;
+
+  @Autowired
+  private OutcomingMailProcessorService outcomingMailProcessorService;
 
   @Autowired
   private CardGeneratorService cardGeneratorService;
@@ -27,4 +31,8 @@ public class ShedulingConfiguration {
     cardGeneratorService.process();
   }
 
+  @Scheduled(fixedDelay = 60000, initialDelay = 25000)
+  public void mailSendingTask() {
+    outcomingMailProcessorService.process();
+  }
 }

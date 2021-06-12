@@ -16,7 +16,10 @@ public class Mail {
   private String fromAddr;
   private String to;
   private String cc;
+
+  @Column(length = 1000)
   private String subject;
+
   private Boolean hasHtmlContent;
   private Boolean hasPlainContent;
   private Boolean hasAttachments;

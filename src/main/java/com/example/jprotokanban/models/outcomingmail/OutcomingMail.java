@@ -15,6 +15,8 @@ public class OutcomingMail {
 
   private String fromEmail;
   private String toEmail;
+
+  @Column(length = 1000)
   private String subject;
 
   @Lob

@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.xml.bind.ValidationException;
+import com.example.jprotokanban.models.user.User;
 import com.example.jprotokanban.services.mail.MailProcessorService;
 import com.example.jprotokanban.services.user.UserAlreadyExistException;
 import com.example.jprotokanban.services.user.UserService;
@@ -64,9 +65,9 @@ public class UserController {
 
   @GetMapping("/info")
   @PreAuthorize("hasRole('USER')")
-  public Map<String, String> info(Authentication authentication) {
+  public User info(Authentication authentication) {
 
-    return Map.of("null", userService.getInfo(authentication));
+    return userService.getInfo(authentication);
   }
 
   @PostMapping("/registration")

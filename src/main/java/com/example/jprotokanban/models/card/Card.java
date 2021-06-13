@@ -17,6 +17,7 @@ import com.example.jprotokanban.models.comment.Comment;
 import com.example.jprotokanban.models.customer.Customer;
 import com.example.jprotokanban.models.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -38,14 +39,13 @@ public class Card {
   @ManyToOne
   private Column column;
 
-  @JsonBackReference
   @ManyToOne
   private User user;
 
-  @JsonBackReference
   @ManyToOne
   private Customer customer;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "card", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Comment> comments = new ArrayList<>();
 

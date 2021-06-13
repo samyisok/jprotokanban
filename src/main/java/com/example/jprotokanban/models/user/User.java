@@ -14,9 +14,11 @@ import javax.persistence.OneToMany;
 import com.example.jprotokanban.models.card.Card;
 import com.example.jprotokanban.models.role.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class User {
   @Id
   @GeneratedValue
@@ -30,9 +32,9 @@ public class User {
   private String password;
   private boolean active;
 
+
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL,
       orphanRemoval = true)
-  // @JoinColumn(name = "user_id")
   private Set<Role> roles = new HashSet<>();
 
   public void addRole(Role role) {
@@ -45,8 +47,8 @@ public class User {
     role.setUser(null);
   }
 
-  @JsonManagedReference
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL,
+  @JsonIgnore
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,
       orphanRemoval = false)
   private List<Card> cards = new ArrayList<>();
 

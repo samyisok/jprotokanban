@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import com.example.jprotokanban.models.card.Card;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -32,7 +33,7 @@ public class Customer {
   private String email;
 
 
-  @JsonManagedReference
+  @JsonIgnore
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer",
       cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
           CascadeType.DETACH},

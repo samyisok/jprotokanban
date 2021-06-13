@@ -39,10 +39,10 @@ public class UserService {
     return (createdUser.getId() != null);
   }
 
-  public String getInfo(Authentication authentication) {
+  public User getInfo(Authentication authentication) {
     MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
     User user = userRepository.getById(userDetails.getId());
 
-    return user.toString();
+    return user;
   }
 }

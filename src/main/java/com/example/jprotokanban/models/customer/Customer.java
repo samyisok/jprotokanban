@@ -14,7 +14,6 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import com.example.jprotokanban.models.card.Card;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;

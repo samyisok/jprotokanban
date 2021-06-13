@@ -1,10 +1,12 @@
 package com.example.jprotokanban.models.customer;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,8 +14,12 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import com.example.jprotokanban.models.card.Card;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Customer {
 
   @Id
@@ -43,6 +49,12 @@ public class Customer {
     card.setCustomer(null);
   }
 
+  @CreatedDate
+  private Instant createdDate;
+
+  @LastModifiedDate
+  private Instant modifiedDate;
+
   public Long getId() {
     return id;
   }
@@ -67,4 +79,19 @@ public class Customer {
     this.email = email;
   }
 
+  public List<Card> getCards() {
+    return cards;
+  }
+
+  public void setCards(List<Card> cards) {
+    this.cards = cards;
+  }
+
+  public Instant getCreatedDate() {
+    return createdDate;
+  }
+
+  public Instant getModifiedDate() {
+    return modifiedDate;
+  }
 }

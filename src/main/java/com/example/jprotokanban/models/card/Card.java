@@ -1,10 +1,12 @@
 package com.example.jprotokanban.models.card;
 
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
@@ -15,8 +17,12 @@ import com.example.jprotokanban.models.comment.Comment;
 import com.example.jprotokanban.models.customer.Customer;
 import com.example.jprotokanban.models.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Card {
   @Id
   @GeneratedValue
@@ -42,6 +48,12 @@ public class Card {
 
   @OneToMany(mappedBy = "card", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Comment> comments = new ArrayList<>();
+
+  @CreatedDate
+  private Instant createdDate;
+
+  @LastModifiedDate
+  private Instant modifiedDate;
 
   public Long getId() {
     return id;
@@ -127,7 +139,6 @@ public class Card {
     this.customer = customer;
   }
 
-
   public void addComment(Comment comment) {
     comments.add(comment);
     comment.setCard(this);
@@ -138,4 +149,19 @@ public class Card {
     comment.setCard(null);
   }
 
+  public Instant getCreatedDate() {
+    return createdDate;
+  }
+
+  public Instant getModifiedDate() {
+    return modifiedDate;
+  }
+
+  public List<Comment> getComments() {
+    return comments;
+  }
+
+  public void setComments(List<Comment> comments) {
+    this.comments = comments;
+  }
 }

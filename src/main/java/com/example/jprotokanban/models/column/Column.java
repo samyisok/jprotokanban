@@ -1,9 +1,11 @@
 package com.example.jprotokanban.models.column;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -12,8 +14,13 @@ import com.example.jprotokanban.models.board.Board;
 import com.example.jprotokanban.models.card.Card;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Column {
   @Id
   @GeneratedValue
@@ -32,6 +39,13 @@ public class Column {
           CascadeType.DETACH},
       orphanRemoval = false)
   private List<Card> cards = new ArrayList<>();
+
+
+  @CreatedDate
+  private Instant createdDate;
+
+  @LastModifiedDate
+  private Instant modifiedDate;
 
   public void addCard(Card card) {
     cards.add(card);
@@ -112,4 +126,21 @@ public class Column {
   public void setPosition(Long position) {
     this.position = position;
   }
+
+  public List<Card> getCards() {
+    return cards;
+  }
+
+  public void setCards(List<Card> cards) {
+    this.cards = cards;
+  }
+
+  public Instant getCreatedDate() {
+    return createdDate;
+  }
+
+  public Instant getModifiedDate() {
+    return modifiedDate;
+  }
+
 }

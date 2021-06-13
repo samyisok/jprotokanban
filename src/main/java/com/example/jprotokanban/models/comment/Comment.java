@@ -1,8 +1,10 @@
 package com.example.jprotokanban.models.comment;
 
+import java.time.Instant;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
@@ -11,8 +13,12 @@ import javax.persistence.OneToOne;
 import com.example.jprotokanban.models.card.Card;
 import com.example.jprotokanban.models.customer.Customer;
 import com.example.jprotokanban.models.user.User;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Comment {
 
   @Id
@@ -37,6 +43,12 @@ public class Comment {
   private Customer customer;
 
   private CommentType commentType = CommentType.INTERNAL;
+
+  @CreatedDate
+  private Instant createdDate;
+
+  @LastModifiedDate
+  private Instant modifiedDate;
 
   public Long getId() {
     return id;
@@ -84,5 +96,13 @@ public class Comment {
 
   public void setCommentType(CommentType commentType) {
     this.commentType = commentType;
+  }
+
+  public Instant getCreatedDate() {
+    return createdDate;
+  }
+
+  public Instant getModifiedDate() {
+    return modifiedDate;
   }
 }

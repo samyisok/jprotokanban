@@ -1,13 +1,19 @@
 package com.example.jprotokanban.models.mail;
 
+import java.time.Instant;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Mail {
   @Id
   @GeneratedValue
@@ -33,6 +39,12 @@ public class Mail {
   private String plainContent;
 
   private Boolean processed = false;
+
+  @CreatedDate
+  private Instant createdDate;
+
+  @LastModifiedDate
+  private Instant modifiedDate;
 
   public Long getId() {
     return id;
@@ -130,4 +142,11 @@ public class Mail {
         + " ]";
   }
 
+  public Instant getCreatedDate() {
+    return createdDate;
+  }
+
+  public Instant getModifiedDate() {
+    return modifiedDate;
+  }
 }

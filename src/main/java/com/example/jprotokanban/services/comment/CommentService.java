@@ -30,8 +30,14 @@ public class CommentService {
   @Autowired
   private UserRepository userRepository;
 
+  // for tests
+  Comment getNewComment() {
+    return new Comment();
+  }
+
   Comment create(Card card, Customer customer, String text) {
-    Comment comment = new Comment();
+    Comment comment = getNewComment();
+
     comment.setCommentType(CommentType.EXTERNAL_INCOMING);
     comment.setCard(card);
     comment.setCustomer(customer);
@@ -41,7 +47,8 @@ public class CommentService {
   }
 
   Comment create(Card card, User user, String text) {
-    Comment comment = new Comment();
+    Comment comment = getNewComment();
+
     comment.setCommentType(CommentType.INTERNAL);
     comment.setCard(card);
     comment.setUser(user);

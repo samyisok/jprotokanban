@@ -30,10 +30,18 @@ public class MailSenderService {
   @Autowired
   private JavaMailSender emailSender;
 
+  Logger getLog() {
+    return log;
+  }
+
+  OutcomingMail getNewOutcomingMail() {
+    return new OutcomingMail();
+  }
+
   public void addMailToSendQueue(TemplateList template, Context context,
       String fromEmail, String toEmail) {
 
-    OutcomingMail mail = new OutcomingMail();
+    OutcomingMail mail = getNewOutcomingMail();
     mail.setToEmail(toEmail);
     mail.setFromEmail(fromEmail);
 
@@ -46,13 +54,13 @@ public class MailSenderService {
     mail.setSubject(subject);
 
     if (html.isBlank() || plain.isBlank() || subject.isBlank()) {
-      log.error("Empty Mail for Send", mail);
+      getLog().error("Empty Mail for Send", mail);
       throw CodeExceptionManager.EMPTY_OUTCOMING_MAIL.getThrowableException();
     }
 
     outcomingMailRepository.save(mail);
 
-    log.info("mail queued, id:" + mail.getId());
+    getLog().info("mail queued, id: " + mail.getId());
   }
 
   public void sendMail(OutcomingMail mail) throws MessagingException {
@@ -67,6 +75,6 @@ public class MailSenderService {
 
     emailSender.send(message);
 
-    log.info("mail sended, id:" + mail.getId());
+    getLog().info("mail sended, id:" + mail.getId());
   }
 }

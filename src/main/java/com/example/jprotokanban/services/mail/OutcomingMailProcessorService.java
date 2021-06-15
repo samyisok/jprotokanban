@@ -27,23 +27,28 @@ public class OutcomingMailProcessorService {
   @Autowired
   private MailSenderProperties mailSenderProperties;
 
+  // for tests
+  Logger getLog() {
+    return log;
+  }
+
 
   @Transactional
   public void process() {
     if (!mailSenderProperties.getActive()) {
-      log.info("Mail sending is turnoff");
+      getLog().info("Mail sending is turnoff");
       return;
     }
 
     List<OutcomingMail> mails = outcomingMailRepository.findBySendedFalse();
 
-    log.info("Prepare total mails: " + mails.size());
+    getLog().info("Prepare total mails: " + mails.size());
     for (OutcomingMail outcomingMail : mails) {
-      log.info("Try to send mail, id: " + outcomingMail.getId());
+      getLog().info("Try to send mail, id: " + outcomingMail.getId());
       try {
         mailSenderService.sendMail(outcomingMail);
       } catch (MessagingException | RuntimeException e) {
-        log.error("failed send mail, id: " + outcomingMail.getId() + " by reason :"
+        getLog().error("failed send mail, id: " + outcomingMail.getId() + " by reason: "
             + e.getMessage());
       } finally {
         // mark mail anyway

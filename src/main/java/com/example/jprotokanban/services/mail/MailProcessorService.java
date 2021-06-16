@@ -27,7 +27,11 @@ public class MailProcessorService {
   @Autowired
   private MailRepository mailRepository;
 
-  void mailSaver(MailContainer mailContainer) {
+  Logger getLog() {
+    return log;
+  }
+
+  void mailSave(MailContainer mailContainer) {
     log.info("process mailContainer of" + mailContainer);
 
     Mail mail = new Mail();
@@ -49,7 +53,7 @@ public class MailProcessorService {
   @Transactional
   public void process() {
     if (!mailProperties.getActive()) {
-      log.info("Mail retrieving is turn off!");
+      getLog().info("Mail retrieving is turn off!");
       return;
     }
 
@@ -61,12 +65,12 @@ public class MailProcessorService {
             mailProperties.getPassword(),
             mailProperties.getFolder());
 
-    log.info("Get mails total to process: " + listOfMails.size());
+    getLog().info("Get mails total to process: " + listOfMails.size());
 
     for (MailContainer mailContainer : listOfMails) {
-      mailSaver(mailContainer);
+      mailSave(mailContainer);
     }
 
-    log.info("Processing is done");
+    getLog().info("Processing is done");
   }
 }

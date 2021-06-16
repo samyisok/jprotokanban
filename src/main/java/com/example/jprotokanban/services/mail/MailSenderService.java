@@ -63,10 +63,15 @@ public class MailSenderService {
     getLog().info("mail queued, id: " + mail.getId());
   }
 
+  MimeMessageHelper getMimeMessageHelper(MimeMessage message, Boolean isMultipart)
+      throws MessagingException {
+    return new MimeMessageHelper(message, isMultipart);
+  }
+
   public void sendMail(OutcomingMail mail) throws MessagingException {
     MimeMessage message = emailSender.createMimeMessage();
 
-    MimeMessageHelper helper = new MimeMessageHelper(message, true);
+    MimeMessageHelper helper = getMimeMessageHelper(message, true);
 
     helper.setFrom(mail.getFromEmail());
     helper.setTo(mail.getToEmail());
@@ -75,6 +80,6 @@ public class MailSenderService {
 
     emailSender.send(message);
 
-    getLog().info("mail sended, id:" + mail.getId());
+    getLog().info("mail sended, id: " + mail.getId());
   }
 }

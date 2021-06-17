@@ -1,7 +1,6 @@
 package com.example.jprotokanban.services.mail;
 
 import java.util.List;
-import com.example.jprotokanban.models.card.Card;
 import com.example.jprotokanban.models.customer.Customer;
 import com.example.jprotokanban.models.mail.Mail;
 import com.example.jprotokanban.models.mail.MailRepository;
@@ -28,22 +27,24 @@ public class CardGeneratorService {
   @Autowired
   private MailRepository mailRepository;
 
+  Logger getLog() {
+    return log;
+  }
+
   @Transactional
   public void process() {
     List<Mail> mails = mailRepository.findByProcessedFalse();
 
-    log.info("Process unprocessed mails, total:" + mails.size());
+    getLog().info("Process unprocessed mails, total: " + mails.size());
     for (Mail mail : mails) {
-      log.info("Start process:" + mail.toString());
+      getLog().info("Start process: " + mail.toString());
       try {
         Customer customer = customerService.createFromEmailString(mail.getFromAddr());
-        Card card = cardService.createCardOrCommentFromEmail(customer, mail);
-        if (card != null) {
-          mail.setProcessed(true);
-        }
+        cardService.createCardOrCommentFromEmail(customer, mail);
       } catch (CustomerParserException e) {
-        log.info("Can not process " + mail + " -> " + e.getMessage());
-        // skip mail
+        getLog().info("Can not process " + mail + " -> " + e.getMessage());
+      } finally {
+        // mark as processed in any way
         mail.setProcessed(true);
       }
     }

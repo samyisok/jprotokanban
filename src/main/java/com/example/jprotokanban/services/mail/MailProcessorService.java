@@ -31,10 +31,14 @@ public class MailProcessorService {
     return log;
   }
 
-  void mailSave(MailContainer mailContainer) {
-    log.info("process mailContainer of" + mailContainer);
+  Mail getNewMail() {
+    return new Mail();
+  }
 
-    Mail mail = new Mail();
+  void mailSave(MailContainer mailContainer) {
+    getLog().info("process mailContainer of " + mailContainer);
+
+    Mail mail = getNewMail();
     mail.setFromAddr(mailContainer.getFrom());
     mail.setTo(mailContainer.getTo().stream().map(addr -> addr.toString())
         .collect(Collectors.joining(", ")));

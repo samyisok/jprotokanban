@@ -65,6 +65,14 @@ public class MailClient implements MailReceivable {
   }
 
 
+  Session getSession(Properties properties) {
+    return Session.getDefaultInstance(properties);
+  }
+
+  MimeMessageParser getNewMimeMessageParser(MimeMessage mimeMessage) {
+    return new MimeMessageParser(mimeMessage);
+  }
+
   @Override
   public List<MailContainer> receivePop3Email(
       String host,
@@ -78,7 +86,7 @@ public class MailClient implements MailReceivable {
     try {
       Properties properties = getProperties(host, port);
 
-      Session emailSession = Session.getDefaultInstance(properties);
+      Session emailSession = getSession(properties);
       emailSession.setDebug(mailProperties.getDebug());
 
       POP3Store emailStore = (POP3Store) emailSession.getStore("pop3");
@@ -93,7 +101,7 @@ public class MailClient implements MailReceivable {
         Message message = messages[i];
         MimeMessage mimeMessage = (MimeMessage) message;
         MimeMessageParser mimeMessageParser =
-            new MimeMessageParser(mimeMessage).parse();
+            getNewMimeMessageParser(mimeMessage).parse();
 
         MailContainer mailContainer = fillMailContainer(mimeMessageParser);
 

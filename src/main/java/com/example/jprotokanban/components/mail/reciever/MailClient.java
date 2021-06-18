@@ -26,19 +26,58 @@ public class MailClient implements MailReceivable {
   @Autowired
   private MailProperties mailProperties;
 
+  Logger getLog() {
+    return log;
+  }
+
+  Properties getNewProperties() {
+    return new Properties();
+  }
+
+  Properties getProperties(String host, Integer port) {
+    Properties properties = getNewProperties();
+    properties.put("mail.pop3.host", host);
+    properties.put("mail.pop3.ssl.enable", true);
+    properties.put("mail.pop3.ssl.trust", "*");
+    properties.put("mail.pop3.port", port);
+    return properties;
+  }
+
+  MailContainer getNewMailContainer() {
+    return new MailContainer();
+  }
+
+  MailContainer fillMailContainer(MimeMessageParser mimeMessageParser)
+      throws Exception {
+    MailContainer mailContainer = getNewMailContainer();
+
+    mailContainer.setFrom(mimeMessageParser.getFrom());
+    mailContainer.setTo(mimeMessageParser.getTo());
+    mailContainer.setCc(mimeMessageParser.getCc());
+    mailContainer.setSubject(mimeMessageParser.getSubject());
+    mailContainer.setHasAttachments(mimeMessageParser.hasAttachments());
+    mailContainer.setHasHtmlContent(mimeMessageParser.hasHtmlContent());
+    mailContainer.setHasPlainContent(mimeMessageParser.hasPlainContent());
+    mailContainer.setHtmlContent(mimeMessageParser.getHtmlContent());
+    mailContainer.setPlainContent(mimeMessageParser.getPlainContent());
+
+    return mailContainer;
+  }
+
+
   @Override
-  public List<MailContainer> receivePop3Email(String host, Integer port, String user,
+  public List<MailContainer> receivePop3Email(
+      String host,
+      Integer port,
+      String user,
       String password,
       String folder) {
 
     List<MailContainer> listOfMails = new ArrayList<>();
 
     try {
-      Properties properties = new Properties();
-      properties.put("mail.pop3.host", host);
-      properties.put("mail.pop3.ssl.enable", true);
-      properties.put("mail.pop3.ssl.trust", "*");
-      properties.put("mail.pop3.port", port);
+      Properties properties = getProperties(host, port);
+
       Session emailSession = Session.getDefaultInstance(properties);
       emailSession.setDebug(mailProperties.getDebug());
 
@@ -49,36 +88,27 @@ public class MailClient implements MailReceivable {
       emailFolder.open(Folder.READ_WRITE);
 
       Message[] messages = emailFolder.getMessages();
-      log.info("Get messages total: " + messages.length);
+      getLog().info("Get messages total: " + messages.length);
       for (int i = 0; i < messages.length; i++) {
         Message message = messages[i];
         MimeMessage mimeMessage = (MimeMessage) message;
         MimeMessageParser mimeMessageParser =
             new MimeMessageParser(mimeMessage).parse();
 
-        MailContainer mailContainter = new MailContainer();
-        mailContainter.setFrom(mimeMessageParser.getFrom());
-        mailContainter.setTo(mimeMessageParser.getTo());
-        mailContainter.setCc(mimeMessageParser.getCc());
-        mailContainter.setSubject(mimeMessageParser.getSubject());
-        mailContainter.setHasAttachments(mimeMessageParser.hasAttachments());
-        mailContainter.setHasHtmlContent(mimeMessageParser.hasHtmlContent());
-        mailContainter.setHasPlainContent(mimeMessageParser.hasPlainContent());
-        mailContainter.setHtmlContent(mimeMessageParser.getHtmlContent());
-        mailContainter.setPlainContent(mimeMessageParser.getPlainContent());
-        listOfMails.add(mailContainter);
+        MailContainer mailContainer = fillMailContainer(mimeMessageParser);
+
+        listOfMails.add(mailContainer);
         message.setFlag(Flags.Flag.DELETED, true);
       }
 
       emailFolder.close(true);
       emailStore.close();
     } catch (MessagingException e) {
-      log.warn("Common error with mail server: " + e.toString() + e.getMessage());
+      getLog().warn("Common error with mail server: " + e.toString() + e.getMessage());
     } catch (IOException e) {
-      log.warn("IO error" + e.toString() + e.getMessage());
+      getLog().warn("IO error" + e.toString() + e.getMessage());
     } catch (Exception e) {
-      log.warn("Error when parsing message: " + e.toString() + e.getMessage());
-      e.printStackTrace();
+      getLog().warn("Error when parsing message: " + e.toString() + e.getMessage());
     }
     return listOfMails;
   }

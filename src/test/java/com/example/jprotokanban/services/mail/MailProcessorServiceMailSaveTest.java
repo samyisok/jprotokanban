@@ -19,7 +19,7 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 
 
 @SpringBootTest
-public class MailProcessorServiceTestMailSave {
+public class MailProcessorServiceMailSaveTest {
 
 
   @MockBean

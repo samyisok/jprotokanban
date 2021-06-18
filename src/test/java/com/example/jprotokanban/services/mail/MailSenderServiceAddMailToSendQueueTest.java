@@ -18,7 +18,7 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.thymeleaf.context.Context;
 
 @SpringBootTest
-public class MailSenderServiceTestAddMailToSendQueue {
+public class MailSenderServiceAddMailToSendQueueTest {
 
   @MockBean
   private TemplateManagerService templateManagerService;

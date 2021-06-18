@@ -18,7 +18,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 
 
 @SpringBootTest
-public class MailSenderServiceTestSendMail {
+public class MailSenderServiceSendMailTest {
 
   @Mock
   private OutcomingMail mail;

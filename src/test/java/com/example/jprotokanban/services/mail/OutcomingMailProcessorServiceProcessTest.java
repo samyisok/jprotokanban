@@ -22,7 +22,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 
 @SpringBootTest
-public class OutcomingMailProcessorServiceTestProcess {
+public class OutcomingMailProcessorServiceProcessTest {
 
   @MockBean
   private OutcomingMailRepository outcomingMailRepository;

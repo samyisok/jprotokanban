@@ -2,9 +2,11 @@ package com.example.jprotokanban.services.card;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 import java.util.Optional;
+import com.example.jprotokanban.exceptions.custom.CodeExceptionManager;
 import com.example.jprotokanban.models.card.Card;
 import com.example.jprotokanban.models.card.CardRepository;
 import com.example.jprotokanban.models.mail.Mail;
@@ -68,6 +70,22 @@ public class CardServiceTest {
     Optional<Card> cardOpt = cardService.findCardFromMail(mail);
     assertTrue(cardOpt.isEmpty());
   }
+
+  @Test
+  void testGetCard() {
+    when(cardRepository.findById(123L)).thenReturn(Optional.of(card));
+    Card newCard = cardService.getCard(123L);
+    assertSame(card, newCard);
+  }
+
+
+  @Test
+  void testGetCardIsEmptyThrow() {
+    when(cardRepository.findById(123L)).thenReturn(Optional.empty());
+    assertThrows(CodeExceptionManager.NOT_FOUND.getExceptionClass(),
+        () -> cardService.getCard(123L));
+  }
+
 
 
 }

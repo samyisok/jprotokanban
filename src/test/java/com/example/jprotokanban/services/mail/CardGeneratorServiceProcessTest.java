@@ -24,7 +24,7 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 
 
 @SpringBootTest
-public class CardGeneratorServiceTestProcess {
+public class CardGeneratorServiceProcessTest {
   @MockBean
   private CustomerService customerService;
 

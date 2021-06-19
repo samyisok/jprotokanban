@@ -112,11 +112,9 @@ public class MailClient implements MailReceivable {
       emailFolder.close(true);
       emailStore.close();
     } catch (MessagingException e) {
-      getLog().warn("Common error with mail server: " + e.toString() + e.getMessage());
-    } catch (IOException e) {
-      getLog().warn("IO error" + e.toString() + e.getMessage());
+      getLog().warn("Common error with mail server: " + e.toString());
     } catch (Exception e) {
-      getLog().warn("Error when parsing message: " + e.toString() + e.getMessage());
+      getLog().warn("Error when parsing message: " + e.toString());
     }
     return listOfMails;
   }

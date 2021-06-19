@@ -21,6 +21,7 @@ import org.mockito.Mock;
 import org.slf4j.Logger;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import javax.mail.MessagingException;
 
 @SpringBootTest
 public class MailClientReceivePop3MailTest {
@@ -127,4 +128,26 @@ public class MailClientReceivePop3MailTest {
     assertArrayEquals(new MailContainer[] {mailContainer1, mailContainer2},
         listOfMails.toArray());
   }
+
+  @Test
+  void testReceivePop3EmailThrowMessagingException() throws MessagingException {
+    when(emailFolder.getMessages()).thenThrow(new MessagingException("test"));
+
+    mailClient.receivePop3Email(host, port, user, password, folder);
+
+    verify(log)
+        .warn("Common error with mail server: javax.mail.MessagingException: test");
+  }
+
+
+  @Test
+  void testReceivePop3EmailThroweException() throws Exception {
+    when(mimeMessageParser1.parse()).thenThrow(new Exception("text"));
+
+    mailClient.receivePop3Email(host, port, user, password, folder);
+
+    verify(log)
+        .warn("Error when parsing message: java.lang.Exception: text");
+  }
+
 }

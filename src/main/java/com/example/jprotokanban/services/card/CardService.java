@@ -102,13 +102,14 @@ public class CardService {
 
     Column column = getColumnFromParams(columnId);
 
-    Card card = new Card();
+    Card card = getNewCard();
     card.setTitle(title);
     card.setText(text);
 
     column.addCard(card);
     customer.addCard(card);
 
+    // TODO LOGS
     return cardRepository.save(card);
   }
 

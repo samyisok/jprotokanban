@@ -1,6 +1,7 @@
 package com.example.jprotokanban.services.card;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -86,6 +87,10 @@ public class CardServiceTest {
         () -> cardService.getCard(123L));
   }
 
-
+  @Test
+  void testGetNewCard() {
+    Card cardResult = cardService.getNewCard();
+    assertNotNull(cardResult);
+  }
 
 }

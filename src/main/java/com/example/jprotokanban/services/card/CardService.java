@@ -53,8 +53,11 @@ public class CardService {
   @Autowired
   private MailSenderProperties mailSenderProperties;
 
-  public Card createWithAuth(String title, String text, Long columnId,
-      Authentication authentication) {
+  Card getNewCard() {
+    return new Card();
+  }
+
+  User getUserFromAuth(Authentication authentication) {
     MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
     Optional<User> userOpt = userRepository.findById(userDetails.getId());
 
@@ -63,16 +66,28 @@ public class CardService {
           .getThrowableException("user " + userDetails.getId() + " not found!");
     }
 
-    User user = userOpt.get();
+    return userOpt.get();
+  }
 
+  Column getColumnFromParams(Long columnId) {
     Optional<Column> columnOpt = columnRepository.findById(columnId);
+
     if (columnOpt.isEmpty()) {
       throw CodeExceptionManager.NOT_FOUND
           .getThrowableException("column " + columnId + " not found!");
     }
-    Column column = columnOpt.get();
 
-    Card card = new Card();
+    return columnOpt.get();
+  }
+
+  public Card createWithAuth(String title, String text, Long columnId,
+      Authentication authentication) {
+
+    User user = getUserFromAuth(authentication);
+
+    Column column = getColumnFromParams(columnId);
+
+    Card card = getNewCard();
     card.setTitle(title);
     card.setText(text);
 
@@ -84,13 +99,8 @@ public class CardService {
 
   Card createFromCustomer(String title, String text, Long columnId,
       Customer customer) {
-    Optional<Column> columnOpt = columnRepository.findById(columnId);
-    if (columnOpt.isEmpty()) {
-      throw CodeExceptionManager.NOT_FOUND
-          .getThrowableException("column " + columnId + " not found!");
-    }
 
-    Column column = columnOpt.get();
+    Column column = getColumnFromParams(columnId);
 
     Card card = new Card();
     card.setTitle(title);
@@ -175,11 +185,6 @@ public class CardService {
   }
 
   public boolean moveToColumn(Long cardId, Long columnId) {
-    Optional<Column> columnOpt = columnRepository.findById(columnId);
-    if (columnOpt.isEmpty()) {
-      throw CodeExceptionManager.NOT_FOUND
-          .getThrowableException("column " + columnId + " not found!");
-    }
 
     Optional<Card> cardOpt = cardRepository.findById(cardId);
     if (cardOpt.isEmpty()) {
@@ -188,7 +193,7 @@ public class CardService {
     }
     Card card = cardOpt.get();
     Column columnOld = card.getColumn();
-    Column columnNew = columnOpt.get();
+    Column columnNew = getColumnFromParams(columnId);
 
     if (columnNew.getId().equals(columnOld.getId())) {
       return false;

@@ -10,7 +10,6 @@ import com.axix.jprotokanban.exceptions.custom.CodeExceptionManager;
 import com.axix.jprotokanban.models.user.MyUserDetails;
 import com.axix.jprotokanban.models.user.User;
 import com.axix.jprotokanban.models.user.UserRepository;
-import com.axix.jprotokanban.services.card.CardService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

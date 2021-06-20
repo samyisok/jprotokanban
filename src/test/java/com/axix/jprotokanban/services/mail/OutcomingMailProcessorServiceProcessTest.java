@@ -13,8 +13,6 @@ import javax.mail.MessagingException;
 import com.axix.jprotokanban.models.outcomingmail.OutcomingMail;
 import com.axix.jprotokanban.models.outcomingmail.OutcomingMailRepository;
 import com.axix.jprotokanban.properties.MailSenderProperties;
-import com.axix.jprotokanban.services.mail.MailSenderService;
-import com.axix.jprotokanban.services.mail.OutcomingMailProcessorService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

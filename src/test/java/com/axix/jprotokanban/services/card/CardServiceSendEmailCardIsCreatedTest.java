@@ -6,7 +6,6 @@ import static org.mockito.Mockito.when;
 import com.axix.jprotokanban.models.card.Card;
 import com.axix.jprotokanban.models.customer.Customer;
 import com.axix.jprotokanban.properties.MailSenderProperties;
-import com.axix.jprotokanban.services.card.CardService;
 import com.axix.jprotokanban.services.mail.MailSenderService;
 import com.axix.jprotokanban.services.mail.TemplateList;
 import org.junit.jupiter.api.BeforeEach;

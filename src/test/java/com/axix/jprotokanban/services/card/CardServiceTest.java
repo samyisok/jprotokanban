@@ -11,7 +11,6 @@ import com.axix.jprotokanban.exceptions.custom.CodeExceptionManager;
 import com.axix.jprotokanban.models.card.Card;
 import com.axix.jprotokanban.models.card.CardRepository;
 import com.axix.jprotokanban.models.mail.Mail;
-import com.axix.jprotokanban.services.card.CardService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.slf4j.Logger;

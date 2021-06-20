@@ -14,7 +14,6 @@ import com.axix.jprotokanban.exceptions.custom.CodeExceptionManager;
 import com.axix.jprotokanban.models.card.Card;
 import com.axix.jprotokanban.models.customer.Customer;
 import com.axix.jprotokanban.models.mail.Mail;
-import com.axix.jprotokanban.services.card.CardService;
 import com.axix.jprotokanban.services.comment.CommentService;
 import com.axix.jprotokanban.services.filter.IncomingMailFilterable;
 import org.junit.jupiter.api.BeforeEach;

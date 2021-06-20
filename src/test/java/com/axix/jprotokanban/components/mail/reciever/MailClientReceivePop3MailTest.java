@@ -10,10 +10,9 @@ import java.util.Properties;
 import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
-import com.axix.jprotokanban.components.mail.reciever.MailClient;
-import com.axix.jprotokanban.components.mail.reciever.MailContainer;
 import com.axix.jprotokanban.properties.MailProperties;
 import com.sun.mail.pop3.POP3Store;
 import org.apache.commons.mail.util.MimeMessageParser;
@@ -23,7 +22,6 @@ import org.mockito.Mock;
 import org.slf4j.Logger;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import javax.mail.MessagingException;
 
 @SpringBootTest
 public class MailClientReceivePop3MailTest {

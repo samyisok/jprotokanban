@@ -8,7 +8,6 @@ import com.axix.jprotokanban.models.card.Card;
 import com.axix.jprotokanban.models.card.CardRepository;
 import com.axix.jprotokanban.models.column.Column;
 import com.axix.jprotokanban.models.customer.Customer;
-import com.axix.jprotokanban.services.card.CardService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

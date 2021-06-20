@@ -2,7 +2,6 @@ package com.axix.jprotokanban.components.mail.reciever;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import javax.mail.internet.MimeMessage;
-import com.axix.jprotokanban.components.mail.reciever.MailClient;
 import org.apache.commons.mail.util.MimeMessageParser;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

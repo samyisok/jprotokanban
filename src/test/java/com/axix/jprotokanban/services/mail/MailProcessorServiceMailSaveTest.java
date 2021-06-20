@@ -9,7 +9,6 @@ import javax.mail.internet.InternetAddress;
 import com.axix.jprotokanban.components.mail.reciever.MailContainer;
 import com.axix.jprotokanban.models.mail.Mail;
 import com.axix.jprotokanban.models.mail.MailRepository;
-import com.axix.jprotokanban.services.mail.MailProcessorService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

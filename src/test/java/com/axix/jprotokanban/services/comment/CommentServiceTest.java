@@ -19,7 +19,6 @@ import com.axix.jprotokanban.models.mail.Mail;
 import com.axix.jprotokanban.models.user.MyUserDetails;
 import com.axix.jprotokanban.models.user.User;
 import com.axix.jprotokanban.models.user.UserRepository;
-import com.axix.jprotokanban.services.comment.CommentService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Spy;

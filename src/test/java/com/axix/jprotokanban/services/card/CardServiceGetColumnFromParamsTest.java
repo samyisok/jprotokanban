@@ -8,7 +8,6 @@ import java.util.Optional;
 import com.axix.jprotokanban.exceptions.custom.CodeExceptionManager;
 import com.axix.jprotokanban.models.column.Column;
 import com.axix.jprotokanban.models.column.ColumnRepository;
-import com.axix.jprotokanban.services.card.CardService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

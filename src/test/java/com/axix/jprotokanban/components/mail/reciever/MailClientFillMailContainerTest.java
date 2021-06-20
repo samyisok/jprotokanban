@@ -7,8 +7,6 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 import javax.mail.Address;
 import javax.mail.internet.InternetAddress;
-import com.axix.jprotokanban.components.mail.reciever.MailClient;
-import com.axix.jprotokanban.components.mail.reciever.MailContainer;
 import org.apache.commons.mail.util.MimeMessageParser;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

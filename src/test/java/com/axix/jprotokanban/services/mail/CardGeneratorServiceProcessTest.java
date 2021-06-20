@@ -14,7 +14,6 @@ import com.axix.jprotokanban.models.mail.MailRepository;
 import com.axix.jprotokanban.services.card.CardService;
 import com.axix.jprotokanban.services.customer.CustomerParserException;
 import com.axix.jprotokanban.services.customer.CustomerService;
-import com.axix.jprotokanban.services.mail.CardGeneratorService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

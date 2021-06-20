@@ -53,6 +53,10 @@ public class CardService {
   @Autowired
   private MailSenderProperties mailSenderProperties;
 
+  Logger getLog() {
+    return log;
+  }
+
   Card getNewCard() {
     return new Card();
   }
@@ -127,7 +131,7 @@ public class CardService {
 
       } catch (Exception e) {
         String msg = "can't create card by a reason: " + e.getMessage();
-        log.warn(msg);
+        getLog().warn(msg);
         throw CodeExceptionManager.CAN_NOT_CREATE_ENTITY.getThrowableException(msg);
       }
     } else {
@@ -137,7 +141,7 @@ public class CardService {
     return cardOpt.get();
   }
 
-  private void sendEmailCardIsCreated(Customer customer, Card newCard) {
+  void sendEmailCardIsCreated(Customer customer, Card newCard) {
     String fromEmail = mailSenderProperties.getDefaultReplyEmail();
     String toEmail = customer.getEmail();
     String ticketId = newCard.getId().toString();

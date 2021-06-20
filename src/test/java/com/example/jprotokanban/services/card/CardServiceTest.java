@@ -13,6 +13,7 @@ import com.example.jprotokanban.models.card.CardRepository;
 import com.example.jprotokanban.models.mail.Mail;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.slf4j.Logger;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
@@ -91,6 +92,12 @@ public class CardServiceTest {
   void testGetNewCard() {
     Card cardResult = cardService.getNewCard();
     assertNotNull(cardResult);
+  }
+
+  @Test
+  void testGetLog() {
+    Logger log = cardService.getLog();
+    assertNotNull(log);
   }
 
 }

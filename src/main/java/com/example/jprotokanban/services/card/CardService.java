@@ -61,6 +61,10 @@ public class CardService {
     return new Card();
   }
 
+  Context getNewContext() {
+    return new Context();
+  }
+
   User getUserFromAuth(Authentication authentication) {
     MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
     Optional<User> userOpt = userRepository.findById(userDetails.getId());
@@ -147,7 +151,7 @@ public class CardService {
     String ticketId = newCard.getId().toString();
     String subject = newCard.getTitle();
 
-    Context context = new Context();
+    Context context = getNewContext();
     context.setVariable("ticketId", ticketId);
     context.setVariable("subject", subject);
 

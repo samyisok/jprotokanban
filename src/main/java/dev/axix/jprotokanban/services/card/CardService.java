@@ -88,16 +88,6 @@ public class CardService {
     return columnOpt.get();
   }
 
-  Card getCardFromParams(Long cardId) {
-    Optional<Card> cardOpt = cardRepository.findById(cardId);
-    if (cardOpt.isEmpty()) {
-      throw CodeExceptionManager.NOT_FOUND
-          .getThrowableException("card " + cardId + " not found!");
-    }
-
-    return cardOpt.get();
-  }
-
   public Card createWithAuth(String title, String text, Long columnId,
       Authentication authentication) {
 
@@ -204,7 +194,7 @@ public class CardService {
   }
 
   public boolean moveToColumn(Long cardId, Long columnId) {
-    Card card = getCardFromParams(cardId);
+    Card card = getCard(cardId);
     Column columnOld = card.getColumn();
     Column columnNew = getColumnFromParams(columnId);
 

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import java.util.Optional;
 import dev.axix.jprotokanban.exceptions.custom.CodeExceptionManager;
@@ -17,6 +18,8 @@ import org.slf4j.Logger;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 
 @SpringBootTest
@@ -33,6 +36,12 @@ public class CardServiceTest {
 
   @Mock
   Mail mail;
+
+  @Mock
+  Pageable pageable;
+
+  @Mock
+  Page<Card> page;
 
   String mailSubject = "RE: [#123456] test subject 42";
   Long ticketExpected = 123456L;
@@ -98,6 +107,15 @@ public class CardServiceTest {
   void testGetLog() {
     Logger log = cardService.getLog();
     assertNotNull(log);
+  }
+
+  @Test
+  void testGetAllPagable() {
+    when(cardRepository.findAll(pageable)).thenReturn(page);
+    Page<Card> cardsPage = cardService.getAllPageable(pageable);
+    assertNotNull(cardsPage);
+    assertSame(page, cardsPage);
+    verify(cardRepository).findAll(pageable);
   }
 
 }

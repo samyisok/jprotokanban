@@ -26,7 +26,7 @@ public class BoardController {
   @PostMapping("/create")
   @PreAuthorize("hasRole('USER')")
   public Board create(@Valid @RequestBody BoardCreateInput input) {
-    return boardService.create(input);
+    return boardService.create(input.getTitle());
   }
 
   @GetMapping("/{id}")

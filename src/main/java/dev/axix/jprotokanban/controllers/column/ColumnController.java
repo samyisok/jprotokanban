@@ -27,13 +27,13 @@ public class ColumnController {
   @PostMapping("/create")
   @PreAuthorize("hasRole('USER')")
   public Column create(@Valid @RequestBody ColumnCreateInput input) {
-    return columnService.create(input);
+    return columnService.create(input.getTitle(), input.getBoardId());
   }
 
   @GetMapping("/{id}")
   @PreAuthorize("hasRole('USER')")
   public Column get(@PathVariable @Positive Long id) {
-    return columnService.getBoard(id);
+    return columnService.getColumn(id);
   }
 
   // api/column/list?page=2&size=1

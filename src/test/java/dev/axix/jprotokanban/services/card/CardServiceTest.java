@@ -8,10 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import java.util.Optional;
-import dev.axix.jprotokanban.exceptions.custom.CodeExceptionManager;
-import dev.axix.jprotokanban.models.card.Card;
-import dev.axix.jprotokanban.models.card.CardRepository;
-import dev.axix.jprotokanban.models.mail.Mail;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.slf4j.Logger;
@@ -20,6 +16,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.thymeleaf.context.Context;
+import dev.axix.jprotokanban.exceptions.custom.CodeExceptionManager;
+import dev.axix.jprotokanban.models.card.Card;
+import dev.axix.jprotokanban.models.card.CardRepository;
+import dev.axix.jprotokanban.models.mail.Mail;
 
 
 @SpringBootTest
@@ -118,4 +119,10 @@ public class CardServiceTest {
     verify(cardRepository).findAll(pageable);
   }
 
+
+  @Test
+  void testGetNewContext() {
+    Context context = cardService.getNewContext();
+    assertNotNull(context);
+  }
 }

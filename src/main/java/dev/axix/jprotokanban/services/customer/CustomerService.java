@@ -18,27 +18,34 @@ public class CustomerService {
   @Autowired
   private CustomerRepository customerRepository;
 
+  Logger getLog() {
+    return log;
+  }
+
+  Customer getNewCustomer() {
+    return new Customer();
+  }
+
   public Customer create(String name, String email) {
     Optional<Customer> existedCustomer = customerRepository.findByEmail(email);
     if (existedCustomer.isPresent()) {
       // update name if exist
-      log.info("Update customer name: " + name + " " + email);
       if (!name.isEmpty()) {
+        getLog().info("Update customer name: " + name + " " + email);
         Customer currentCustomer = existedCustomer.get();
         currentCustomer.setName(name);
         return customerRepository.save(currentCustomer);
       }
-      log.info("Customer alredy exist, do nothing: " + email);
+      getLog().info("Customer alredy exist, do nothing: " + email);
       return existedCustomer.get();
     }
 
-    Customer customer = new Customer();
+    Customer customer = getNewCustomer();
     customer.setName(name);
     customer.setEmail(email);
-    customerRepository.save(customer);
 
-    log.info("Create Customer: " + name + " " + email);
-    return customer;
+    getLog().info("Create Customer: " + name + " " + email);
+    return customerRepository.save(customer);
   }
 
 
@@ -58,14 +65,10 @@ public class CustomerService {
           matcher.group(2).strip());
     }
 
-
     if (Pattern.compile(".+@.+\\..+").matcher(from).matches()) {
       return Map.of("name", "", "email", from.strip());
     }
 
     throw new CustomerParserException("Invalid from field");
-
-
   }
-
 }

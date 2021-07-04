@@ -67,7 +67,7 @@ public class UserController {
   @PreAuthorize("hasRole('USER')")
   public User info(Authentication authentication) {
 
-    return userService.getInfo(authentication);
+    return userService.getUserInfo(authentication);
   }
 
   @PostMapping("/registration")
@@ -78,7 +78,8 @@ public class UserController {
 
 
     if (userRegistrationData.isValid()) {
-      boolean result = userService.registration(userRegistrationData);
+      boolean result = userService.registration(userRegistrationData.getLogin(),
+          userRegistrationData.getPassword1());
       return Map.of("isSuccess", result);
     } else {
       throw new ValidationException("Wrong input");
